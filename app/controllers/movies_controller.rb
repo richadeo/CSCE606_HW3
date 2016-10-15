@@ -11,7 +11,18 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    redirect = false
+    if params[:sort]
+       @sorting = params[:sort]
+    elsif session[:sort]
+       @sorting = session[:sort]
+       redirect = true
+    end
+    if redirect
+       redirect_to movies_path(:sort => @sorting)
+    end
+    session[:sort] = @sorting
+    #@movies = Movie.all
   end
 
   def new
