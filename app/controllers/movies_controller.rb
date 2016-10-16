@@ -18,9 +18,17 @@ class MoviesController < ApplicationController
     redirect = false
     if params[:sort]
        @sorting = params[:sort]
+    elsif session[:sort]
+       @sorting = session[:sort]
+       flash.keep
+       redirect = true
     end
     if params[:ratings]
 	@ratings = params[:ratings]
+    elsif session[:ratings]
+        @ratings = session[:ratings]
+        flash.keep
+	redirect = true
     else 
 	@all_ratings.each do |rat|
                 (@ratings ||= { })[rat] = 1
@@ -40,6 +48,8 @@ class MoviesController < ApplicationController
     end
     
    #@movies = Movie.order(@sorting) 
+  session[:sort]    = @sorting
+  session[:ratings] = @ratings
   end
 
   def new
