@@ -19,13 +19,27 @@ class MoviesController < ApplicationController
     if params[:sort]
        @sorting = params[:sort]
     end
+    if params[:ratings]
+	@ratings = params[:ratings]
+    else 
+	@all_ratings.each do |rat|
+                (@ratings ||= { })[rat] = 1
+            end
+            redirect = true
+    end
     
     
     if redirect
-       redirect_to movies_path(:sort => @sorting)
+       redirect_to movies_path(:sort => @sorting, :ratings => @ratings)
+    end
+
+    Movie.order( @sorting ? @sorting : :id).each do |mv|
+         if @ratings.keys.include? mv[:rating]
+                (@movies ||= [ ]) << mv
+         end
     end
     
-    @movies = Movie.order(@sorting) 
+   #@movies = Movie.order(@sorting) 
   end
 
   def new
