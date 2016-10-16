@@ -10,9 +10,6 @@ class CreateMovies < ActiveRecord::Migration
       t.timestamps
     end
   end
-  def sort
-	movies.order(:title)
-  end
 end
 
     

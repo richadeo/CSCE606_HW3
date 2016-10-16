@@ -53,9 +53,5 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
   
-  def sort
-     @movies.sort_by!{ |m| m.movie.title }
-     redirect_to movies_path
-  end
 
 end
