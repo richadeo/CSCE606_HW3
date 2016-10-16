@@ -1,5 +1,6 @@
 class MoviesController < ApplicationController
 
+
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
@@ -14,15 +15,14 @@ class MoviesController < ApplicationController
     redirect = false
     if params[:sort]
        @sorting = params[:sort]
-    elsif session[:sort]
-       @sorting = session[:sort]
-       redirect = true
     end
+    
+    
     if redirect
        redirect_to movies_path(:sort => @sorting)
     end
-    session[:sort] = @sorting
-    #@movies = Movie.all
+    
+    @movies = Movie.order(@sorting) 
   end
 
   def new
